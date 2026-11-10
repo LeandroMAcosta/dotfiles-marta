@@ -39,7 +39,15 @@ eval "$($brew_bin shellenv)"
 if ! xcode-select -p >/dev/null 2>&1; then
   say "Apple's Command Line Tools (a window opens: click Install)"
   xcode-select --install || true
-  until xcode-select -p >/dev/null 2>&1; do sleep 10; done
+  echo "Waiting for it to finish. If you closed the window, run this script again."
+  for _ in $(seq 180); do
+    xcode-select -p >/dev/null 2>&1 && break
+    sleep 10
+  done
+  if ! xcode-select -p >/dev/null 2>&1; then
+    echo "The Command Line Tools did not install. Run this script again."
+    exit 1
+  fi
 fi
 
 say "mise, which installs the command-line tools"

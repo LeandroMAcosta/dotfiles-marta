@@ -11,7 +11,7 @@
 {{- $deployed := joinPath .chezmoi.homeDir ".claude" "settings.json" -}}
 {{- $model := "" -}}
 {{- if stat $deployed -}}
-{{-   $model = (include $deployed | fromJson).model | default "" -}}
+{{-   $model = dig "model" "" (include $deployed | fromJson) -}}
 {{- end -}}
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",

@@ -38,8 +38,14 @@ who has never seen a stack trace.
 tmp=$(mktemp -d)
 chezmoi --source home --destination "$tmp/home" \
   --config "$tmp/chezmoi.toml" --persistent-state "$tmp/state.boltdb" \
+  --override-data "{\"chezmoi\":{\"homeDir\":\"$tmp/home\"}}" \
   --exclude scripts,externals apply
 ```
+
+Run the apply twice. Templates that read a deployed file back (settings.json
+does) take a different path on the second run, and that path is the one
+`dots-update` takes. Without `--override-data`, `.chezmoi.homeDir` still
+points at your real home and the templates read your files instead.
 
 Then validate what landed in `$tmp/home` (`jq . .claude/settings.json`,
 `zsh -n .zshrc`, `ghostty +validate-config --config-file=...`).

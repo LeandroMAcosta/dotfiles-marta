@@ -11,7 +11,10 @@ export PATH="$HOME/.local/bin:$HOME/.local/share/mise/shims:$PATH"
 
 command -v herdr >/dev/null && command -v claude >/dev/null || exit 0
 
-if ! herdr integration status 2>/dev/null | grep -q '^claude: current'; then
+# Read the status into a variable first: piping it into `grep -q` lets grep
+# exit early, herdr dies of SIGPIPE, and pipefail reads that as "not current".
+herdr_status=$(herdr integration status 2>/dev/null || true)
+if ! grep -q '^claude: current' <<<"$herdr_status"; then
   echo "==> Connecting herdr to Claude Code"
   herdr integration install claude
 fi
