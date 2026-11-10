@@ -15,14 +15,23 @@ who has never seen a stack trace.
 
 ## Rules
 
-- **Command-line tools go in `home/dot_config/mise/config.toml`, never the
-  Brewfile.** Her Mac is an Intel MacBook Pro and Homebrew ships no Intel
-  bottles any more, so a formula compiles from source. Check a tool exists in
-  mise's registry first (`registry/<name>.toml` in jdx/mise).
-- **Apps go in the `Brewfile`** as casks. Check `depends_on.macos` in
-  `https://formulae.brew.sh/api/cask/<name>.json`; her Mac runs macOS 26.
-  Check `depends_on.arch` too: a cask marked `arm` will not install on Intel.
-  `herdr-app` is one, which is why only the herdr CLI is here.
+- **No Homebrew, anywhere.** Her Mac is an Intel MacBook Pro, and Homebrew's
+  installer aborts on Intel ("Homebrew on macOS is only supported on Apple
+  Silicon processors!", a hard `uname -m` check with no override).
+- **Command-line tools go in `home/dot_config/mise/config.toml`.** Check the
+  tool exists in mise's registry first (`registry/<name>.toml` in jdx/mise).
+- **Apps go in `APPS` in `home/.chezmoiscripts/run_onchange_before_10-apps.sh`.**
+  The script reads the download link and sha256 from Homebrew's public cask
+  catalogue (`https://formulae.brew.sh/api/cask/<name>.json`, the `tahoe`
+  variation for Intel), installs nothing through brew, and refuses a bundle
+  whose binary lacks this Mac's architecture. Before adding a cask, check its
+  `depends_on.macos` (her Mac runs macOS 26) and `depends_on.arch`: a cask
+  marked `arm` has no Intel build. `herdr-app` is one, which is why only the
+  herdr CLI is here.
+- **Test the app script without installing** by pointing it at a scratch
+  folder: `APPS_DIR=$(mktemp -d) bash home/.chezmoiscripts/run_onchange_before_10-apps.sh`.
+  On an Apple silicon Mac, put a stub `uname` that prints `x86_64` first on
+  PATH to exercise the Intel downloads.
 - **`home/dot_claude/settings.json.tmpl` keeps herdr's SessionStart hook
   exactly as `herdr integration install claude` writes it.** If they differ,
   herdr and chezmoi rewrite the file in turn on every update.

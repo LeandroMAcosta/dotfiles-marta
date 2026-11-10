@@ -74,7 +74,6 @@ The last one opens an interactive session. `.quit` leaves it.
 | Type | What it does |
 |---|---|
 | `dots-update` | Updates the terminal setup and its tools |
-| `brew install --cask <app>` | Installs an app, `brew search <name>` finds it |
 | `mise use -g <tool>` | Installs a command-line tool |
 
 Your own aliases and settings go in `~/.zshrc.local`. Updates never touch it.

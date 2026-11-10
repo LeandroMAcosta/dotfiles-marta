@@ -3,10 +3,10 @@
 Marta's Mac setup: Claude Code, an agent manager, a friendlier terminal and a
 few apps, installed with one command and kept up to date with another.
 
-Built for a 2020 Intel MacBook Pro on macOS 26. Homebrew no longer ships
-Intel builds of command-line tools, so Homebrew installs only the apps here
-and [mise](https://mise.jdx.dev) installs the tools from each project's own
-prebuilt release.
+Built for a 2020 Intel MacBook Pro on macOS 26. Homebrew's installer refuses
+Intel Macs, so nothing here uses it. The apps are downloaded straight from
+each vendor and update themselves. [mise](https://mise.jdx.dev) installs the
+command-line tools from each project's own prebuilt release.
 
 ## Install
 
@@ -16,7 +16,8 @@ Open Terminal (cmd+space, type Terminal) and paste:
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/LeandroMAcosta/dotfiles-marta/main/install.sh)"
 ```
 
-It asks for your Mac password once, for Homebrew, and takes a while. Any
+If the Command Line Tools are missing, a macOS window asks to install them:
+click Install. The rest takes a while and needs no input. Any
 settings file it replaces is copied to `~/dotfiles-backup-<date>` first.
 Running it again is safe.
 
@@ -61,6 +62,11 @@ notification when it finishes or needs an answer. `sudo`, force pushes and
 The Herdr desktop app is not included because it runs only on Apple silicon
 Macs. The herdr terminal app above does the same job on this one.
 
+To add an app, add a line to `APPS` in
+`home/.chezmoiscripts/run_onchange_before_10-apps.sh`. The first part is its
+name in Homebrew's catalogue (`https://formulae.brew.sh/cask/<name>`), the
+second its name in Applications.
+
 ## Your own changes
 
 Files this repo manages are overwritten on every `dots-update`. Put personal
@@ -76,12 +82,12 @@ and quit apps you are not using rather than closing their windows.
 ## Layout
 
 ```
-Brewfile                apps, installed by Homebrew
 install.sh              first-time bootstrap
 home/                   chezmoi source, mirrors ~ (see .chezmoiroot)
   .chezmoiscripts/      apps, tools, Claude Code, herdr hook, in that order
+                        (the app list is at the top of the 10-apps script)
   .chezmoiexternal.toml the two zsh plugins, pinned by checksum
-  dot_zprofile          PATH for Homebrew, mise and Claude Code
+  dot_zprofile          PATH for mise and Claude Code
   dot_zshrc             prompt, history, completion, aliases, dots-update
   dot_claude/           Claude Code's instructions, settings and hooks
   dot_config/           Ghostty, herdr, mise, git, starship, the cheat sheet

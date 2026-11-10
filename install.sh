@@ -2,8 +2,9 @@
 # One-time setup for a new Mac. Paste this into Terminal:
 #   bash -c "$(curl -fsSL https://raw.githubusercontent.com/LeandroMAcosta/dotfiles-marta/main/install.sh)"
 #
-# Bootstrap only: Homebrew, mise and chezmoi. Everything else (apps, tools,
-# settings, Claude Code) is chezmoi's job, so it also happens on dots-update.
+# Bootstrap only: Apple's Command Line Tools, mise and chezmoi. Everything else
+# (apps, tools, settings, Claude Code) is chezmoi's job, so it also happens on
+# dots-update. No Homebrew: its installer refuses Intel Macs.
 set -euo pipefail
 
 REPO="https://github.com/LeandroMAcosta/dotfiles-marta.git"
@@ -16,26 +17,8 @@ if [[ $(uname -s) != Darwin ]]; then
   exit 1
 fi
 
-say "Homebrew, which installs the apps (asks for your Mac password)"
-for brew_bin in /opt/homebrew/bin/brew /usr/local/bin/brew; do
-  [[ -x $brew_bin ]] && break
-  brew_bin=""
-done
-if [[ -z $brew_bin ]]; then
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  for brew_bin in /opt/homebrew/bin/brew /usr/local/bin/brew; do
-    [[ -x $brew_bin ]] && break
-    brew_bin=""
-  done
-fi
-if [[ -z $brew_bin ]]; then
-  echo "Homebrew did not install. Send Leandro the messages above."
-  exit 1
-fi
-eval "$($brew_bin shellenv)"
-
-# Homebrew installs Apple's Command Line Tools, which bring git. Check anyway,
-# because chezmoi cannot download the settings without git.
+# git comes with Apple's Command Line Tools, and chezmoi needs git to
+# download the settings.
 if ! xcode-select -p >/dev/null 2>&1; then
   say "Apple's Command Line Tools (a window opens: click Install)"
   xcode-select --install || true

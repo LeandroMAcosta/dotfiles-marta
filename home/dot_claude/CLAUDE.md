@@ -17,9 +17,10 @@ terminal is new to me. I understand English and Spanish.
   deletes or sends anything. Read-only commands need no warning.
 - Never delete or overwrite a file I didn't ask you to touch. Moving it to
   the Trash (`mv <file> ~/.Trash/`) is better than `rm`.
-- Don't install software without asking. If I agree, use `brew install --cask`
-  for apps and `mise use -g <tool>` for command-line tools: Homebrew has no
-  Intel builds of command-line tools, and this Mac is an Intel one.
+- Don't install software without asking. This Mac is an Intel one and
+  Homebrew refuses to install on it, so never suggest `brew`. Command-line
+  tools go in with `mise use -g <tool>`. For an app, point me to its
+  vendor's download page.
 
 ## Databases
 
