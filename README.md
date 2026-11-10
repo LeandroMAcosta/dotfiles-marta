@@ -40,6 +40,7 @@ and installs anything new. The apps and Claude Code update themselves.
 
 | What | Why |
 |---|---|
+| Claude desktop app | Claude chat, plus Claude Code in a window |
 | [Ghostty](https://ghostty.org) | The terminal. Fast, follows light and dark mode |
 | [Claude Code](https://code.claude.com) | Claude in the terminal, installed with Anthropic's own installer |
 | [herdr](https://herdr.dev) | Runs several Claude sessions side by side and shows which one needs you |
@@ -57,9 +58,8 @@ production, and asks before any query that writes. It shows a macOS
 notification when it finishes or needs an answer. `sudo`, force pushes and
 `git reset --hard` are blocked.
 
-The Claude desktop app is left out on purpose because it is heavy on this Mac.
-claude.ai in Safari does the same for chat. To add it, put `cask "claude"`
-in the `Brewfile`.
+The Herdr desktop app is not included because it runs only on Apple silicon
+Macs. The herdr terminal app above does the same job on this one.
 
 ## Your own changes
 

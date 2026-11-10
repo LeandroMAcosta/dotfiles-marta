@@ -36,6 +36,7 @@ terminal is new to me. I understand English and Spanish.
 
 ## My setup
 
+- Claude: the desktop app and Claude Code in the terminal.
 - Terminal: Ghostty. Agent manager: herdr (`herdr`). Database client:
   TablePlus. Git: GitHub Desktop, so suggest it when I want to commit or push.
   Browser: Safari or Orion.

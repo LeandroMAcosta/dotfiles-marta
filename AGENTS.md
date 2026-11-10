@@ -21,6 +21,8 @@ who has never seen a stack trace.
   mise's registry first (`registry/<name>.toml` in jdx/mise).
 - **Apps go in the `Brewfile`** as casks. Check `depends_on.macos` in
   `https://formulae.brew.sh/api/cask/<name>.json`; her Mac runs macOS 26.
+  Check `depends_on.arch` too: a cask marked `arm` will not install on Intel.
+  `herdr-app` is one, which is why only the herdr CLI is here.
 - **`home/dot_claude/settings.json.tmpl` keeps herdr's SessionStart hook
   exactly as `herdr integration install claude` writes it.** If they differ,
   herdr and chezmoi rewrite the file in turn on every update.
