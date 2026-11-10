@@ -1,0 +1,48 @@
+# Interactive shell settings. Managed by chezmoi: dots-update overwrites this
+# file. Put your own aliases and settings in ~/.zshrc.local instead.
+
+# History: large, shared between tabs, no duplicates.
+HISTFILE=~/.zsh_history
+HISTSIZE=50000
+SAVEHIST=50000
+setopt SHARE_HISTORY HIST_IGNORE_ALL_DUPS HIST_REDUCE_BLANKS
+setopt AUTO_CD INTERACTIVE_COMMENTS
+
+# nano is the editor git and Claude open when they need one. Save with ctrl+o,
+# quit with ctrl+x, and the bottom two lines always list the keys.
+export EDITOR=nano VISUAL=nano
+
+# Tab completion, case-insensitive, with a menu you move through with arrows.
+autoload -Uz compinit && compinit
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+zstyle ':completion:*' menu select
+
+command -v starship >/dev/null && eval "$(starship init zsh)"
+command -v zoxide >/dev/null && eval "$(zoxide init zsh)"
+command -v fzf >/dev/null && source <(fzf --zsh)
+
+alias ls='ls -G'
+alias ll='ls -lhG'
+alias la='ls -lhAG'
+alias cheatsheet='glow ~/.config/cheatsheet/cheatsheet.md'
+
+# Upgrades the command-line tools, then pulls the latest version of these
+# dotfiles and installs whatever they added. Apps and Claude Code update
+# themselves. Tools go first so the herdr step of the apply sees the new herdr.
+dots-update() {
+  echo "==> Updating command-line tools"
+  mise upgrade --yes || return
+  echo "==> Updating settings and apps"
+  chezmoi update --force || return
+  echo "Done. Open a new tab to load any shell changes."
+}
+
+[[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
+
+# These two stay last: syntax highlighting has to wrap everything above it.
+zsh_plugins=~/.local/share/zsh
+[[ -f $zsh_plugins/zsh-autosuggestions/zsh-autosuggestions.zsh ]] &&
+  source $zsh_plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+[[ -f $zsh_plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]] &&
+  source $zsh_plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+unset zsh_plugins

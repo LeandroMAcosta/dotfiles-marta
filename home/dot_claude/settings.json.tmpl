@@ -1,0 +1,76 @@
+{{/*
+   Claude Code's user settings.
+
+   The model chosen with /model is saved into this same file, so it is read
+   back from the deployed copy and kept; pinning it here would undo that
+   choice on every dots-update.
+
+   The SessionStart hook is herdr's. `herdr integration install claude` adds
+   the same entry, so listing it here keeps this file and herdr in agreement.
+*/ -}}
+{{- $deployed := joinPath .chezmoi.homeDir ".claude" "settings.json" -}}
+{{- $model := "" -}}
+{{- if stat $deployed -}}
+{{-   $model = (include $deployed | fromJson).model | default "" -}}
+{{- end -}}
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+{{- if $model }}
+  "model": {{ $model | quote }},
+{{- end }}
+  "permissions": {
+    "defaultMode": "default",
+    "ask": [
+      "Bash(rm -rf:*)",
+      "Bash(rm -r:*)"
+    ],
+    "deny": [
+      "Bash(sudo:*)",
+      "Bash(git push --force:*)",
+      "Bash(git push -f:*)",
+      "Bash(git reset --hard:*)",
+      "Bash(git clean:*)",
+      "Read(~/.ssh/**)"
+    ]
+  },
+  "hooks": {
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh '{{ .chezmoi.homeDir }}/.claude/hooks/notify.sh' 'Claude needs you'",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh '{{ .chezmoi.homeDir }}/.claude/hooks/notify.sh' 'Claude finished'",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "^(startup|resume|clear|compact|fork)$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash '{{ .chezmoi.homeDir }}/.claude/hooks/herdr-agent-state.sh' session",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "sh '{{ .chezmoi.homeDir }}/.claude/statusline.sh'"
+  }
+}

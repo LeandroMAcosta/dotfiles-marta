@@ -1,0 +1,16 @@
+# Command-line tools, installed by mise from each project's own prebuilt
+# release (Intel builds included). `dots-update` upgrades them.
+# The shims in ~/.local/share/mise/shims are on PATH, set in ~/.zprofile.
+
+[tools]
+chezmoi = "latest"   # keeps these dotfiles in sync
+herdr = "latest"     # agent manager, run `herdr`
+starship = "latest"  # the prompt
+fzf = "latest"       # ctrl+r history search
+zoxide = "latest"    # `z <folder>` jumps to a folder you visited before
+glow = "latest"      # renders the cheat sheet
+jq = "latest"        # used by the Claude hooks
+duckdb = "latest"    # SQL over CSV, Excel and Parquet files
+gh = "latest"        # GitHub from the terminal, for Claude
+node = "lts"         # MCP servers start through npx
+uv = "latest"        # MCP servers start through uvx

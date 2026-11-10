@@ -1,0 +1,15 @@
+# Runs once per login shell, which is every new Ghostty tab and herdr pane.
+# Managed by chezmoi: dots-update overwrites this file.
+
+# Homebrew lives in /usr/local on Intel Macs and /opt/homebrew on Apple ones.
+for brew_bin in /opt/homebrew/bin/brew /usr/local/bin/brew; do
+  if [[ -x $brew_bin ]]; then
+    eval "$($brew_bin shellenv)"
+    break
+  fi
+done
+unset brew_bin
+
+# mise (and Claude Code) install into ~/.local/bin; the tools mise manages
+# are reached through its shims, ahead of anything Homebrew or macOS ships.
+export PATH="$HOME/.local/bin:$HOME/.local/share/mise/shims:$PATH"

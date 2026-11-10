@@ -1,0 +1,8 @@
+# herdr, the agent manager. Start it by typing `herdr` in Ghostty.
+# Every key is herdr's default: press ctrl+b, then the key. ctrl+b then ?
+# lists them all. Every option: herdr --default-config
+
+[theme]
+auto_switch = true
+dark_name = "catppuccin"
+light_name = "catppuccin-latte"

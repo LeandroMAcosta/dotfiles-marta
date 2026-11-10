@@ -1,0 +1,20 @@
+#!/bin/bash
+# Installs the apps in the Brewfile. chezmoi re-runs this whenever the
+# Brewfile changes. Brewfile hash: {{ include "../Brewfile" | sha256sum }}
+set -uo pipefail
+
+for brew_bin in /opt/homebrew/bin/brew /usr/local/bin/brew; do
+  [[ -x $brew_bin ]] && eval "$($brew_bin shellenv)" && break
+done
+
+if ! command -v brew >/dev/null; then
+  echo "Homebrew is not installed, so the apps were skipped. Run install.sh again."
+  exit 0
+fi
+
+echo "==> Installing apps"
+# An app that is already in /Applications (installed by hand) makes brew stop
+# with "It seems there is already an App". That app still works; it just
+# updates itself instead of through brew.
+brew bundle --file="{{ .chezmoi.workingTree }}/Brewfile" ||
+  echo "  Some apps were not installed, see the messages above."

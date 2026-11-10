@@ -1,0 +1,9 @@
+# Git defaults. GitHub Desktop writes your name and email to ~/.gitconfig,
+# which git reads on top of this file, so the two never overwrite each other.
+
+[init]
+    defaultBranch = main
+[pull]
+    rebase = false
+[core]
+    editor = nano

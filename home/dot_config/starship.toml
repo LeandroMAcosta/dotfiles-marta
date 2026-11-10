@@ -1,0 +1,13 @@
+# The prompt shows the folder, the git branch and how long a slow command
+# took, and nothing else.
+format = "$directory$git_branch$git_status$cmd_duration$line_break$character"
+
+[directory]
+truncation_length = 3
+
+[git_branch]
+format = "on [$branch]($style) "
+
+[cmd_duration]
+min_time = 5_000
+format = "took [$duration]($style) "

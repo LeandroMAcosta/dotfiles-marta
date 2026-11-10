@@ -1,0 +1,16 @@
+# Ghostty settings. Reload after editing with cmd+shift+,
+# Every option: ghostty +show-config --default --docs
+
+font-size = 15
+theme = light:Catppuccin Latte,dark:Catppuccin Mocha
+window-padding-x = 12
+window-padding-y = 8
+
+# Reopen the same windows and tabs after a restart.
+window-save-state = always
+
+# Selecting text copies it, as in most terminals.
+copy-on-select = clipboard
+
+# Option is deliberately left as Option, not Alt: on a Spanish keyboard it types
+# @, #, [ and ], which the terminal needs more than any shortcut.

@@ -1,0 +1,15 @@
+#!/bin/bash
+# Installs the command-line tools listed in ~/.config/mise/config.toml.
+# chezmoi re-runs this whenever that list changes.
+# config hash: {{ include "dot_config/mise/config.toml" | sha256sum }}
+set -euo pipefail
+export PATH="$HOME/.local/bin:$HOME/.local/share/mise/shims:$PATH"
+
+if ! command -v mise >/dev/null; then
+  echo "mise is not installed, so the tools were skipped. Run install.sh again."
+  exit 0
+fi
+
+echo "==> Installing command-line tools"
+mise install --yes
+mise reshim
